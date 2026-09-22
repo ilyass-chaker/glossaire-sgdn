@@ -35,5 +35,3 @@ Colonnes obligatoires :
 - `Définition`
 
 Colonne facultative : `Exemple`.
-
-L’ordre des colonnes n’a pas d’importance. Les chapitres absents sont créés automatiquement et une notion existante dans le même chapitre est mise à jour plutôt que dupliquée.
