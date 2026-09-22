@@ -6,10 +6,9 @@
 <div id="configError" class="error-banner hidden">L’application n’est pas encore reliée à Supabase. Complétez <strong>assets/config.js</strong> avant de vous connecter.</div>
 <section id="loginView" class="login-card"><h2>Connexion enseignant</h2><div class="field"><label>Adresse e-mail</label><input id="email" type="email" autocomplete="username"></div><div class="field"><label>Mot de passe</label><input id="password" type="password" autocomplete="current-password"></div><div class="row-actions" style="margin-top:10px">
 <button class="primary-btn" id="loginBtn" type="button">Se connecter</button>
-<button class="secondary-btn" id="signupBtn" type="button">Créer mon accès enseignant</button>
 </div>
-<p class="notice" style="margin-top:12px">Première utilisation : saisissez votre adresse e-mail et choisissez votre mot de passe, puis cliquez sur « Créer mon accès enseignant ». Une confirmation par e-mail peut être demandée par Supabase.</p>
-<p id="loginError" style="color:#b42318"></p><p id="loginSuccess" style="color:#1e7a62"></p></section>
+<p class="notice" style="margin-top:12px">L’accès à cette interface est réservé au compte enseignant autorisé.</p>
+<p id="loginError" style="color:#b42318"></p></section>
 <section id="adminView" class="hidden">
 <div class="admin-topline"><span class="status-pill" id="sessionLabel">Connecté</span><button class="secondary-btn" id="logoutBtn" type="button">Se déconnecter</button></div>
 <div class="admin-grid">
