@@ -19,17 +19,6 @@
     $('loginError').textContent='';if(!app.configured){$('configError').classList.remove('hidden');return;}
     const {error}=await app.db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){$('loginError').textContent=error.message;return;}await requireAdmin();
   }
-  async function signup(){
-    $('loginError').textContent='';$('loginSuccess').textContent='';
-    if(!app.configured){$('configError').classList.remove('hidden');return;}
-    const email=$('email').value.trim(),password=$('password').value;
-    if(!email||!password){$('loginError').textContent='Renseignez votre adresse e-mail et choisissez un mot de passe.';return;}
-    if(password.length<8){$('loginError').textContent='Choisissez un mot de passe d’au moins 8 caractères.';return;}
-    const {data,error}=await app.db.auth.signUp({email,password});
-    if(error){$('loginError').textContent=error.message;return;}
-    if(data?.session){await requireAdmin();return;}
-    $('loginSuccess').textContent='Compte créé. Consultez votre messagerie pour confirmer votre adresse si Supabase vous le demande, puis revenez vous connecter.';
-  }
   async function logout(){await app.db.auth.signOut();showLogin()}
   async function loadData(){
     const [{data:cs,error:ce},{data:es,error:ee}]=await Promise.all([app.db.from('chapters').select('*').order('position').order('title'),app.db.from('glossary_entries').select('*').order('term')]);
@@ -62,7 +51,7 @@
     }catch(err){$('importReport').innerHTML=`<div class="error-banner">${app.escapeHtml(err.message||String(err))}</div>`}
   }
 
-  $('loginBtn').addEventListener('click',login);$('signupBtn').addEventListener('click',signup);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('logoutBtn').addEventListener('click',logout);$('addChapterBtn').addEventListener('click',addChapter);$('newChapter').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addChapter()}});$('addEntryBtn').addEventListener('click',addEntry);$('importExcelBtn').addEventListener('click',importExcel);$('adminSearch').addEventListener('input',renderEntries);$('adminChapterFilter').addEventListener('change',renderEntries);
+  $('loginBtn').addEventListener('click',login);$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});$('logoutBtn').addEventListener('click',logout);$('addChapterBtn').addEventListener('click',addChapter);$('newChapter').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addChapter()}});$('addEntryBtn').addEventListener('click',addEntry);$('importExcelBtn').addEventListener('click',importExcel);$('adminSearch').addEventListener('input',renderEntries);$('adminChapterFilter').addEventListener('change',renderEntries);
   $('chapterList').addEventListener('click',e=>{const b=e.target.closest('[data-delete-chapter]');if(b)deleteChapter(b.dataset.deleteChapter)});$('entryList').addEventListener('click',e=>{const eb=e.target.closest('[data-edit]'),db=e.target.closest('[data-delete-entry]');if(eb)openEdit(eb.dataset.edit);if(db)deleteEntry(db.dataset.deleteEntry)});
   $('closeEdit').addEventListener('click',()=> $('editModal').classList.add('hidden'));$('cancelEdit').addEventListener('click',()=> $('editModal').classList.add('hidden'));$('saveEdit').addEventListener('click',saveEdit);$('confirmClose').addEventListener('click',closeConfirm);$('confirmCancel').addEventListener('click',closeConfirm);$('confirmDelete').addEventListener('click',async()=>{if(!pendingDelete)return;const fn=pendingDelete;closeConfirm();await fn()});
   if(app.configured)app.db.auth.onAuthStateChange(()=>setTimeout(requireAdmin,0));requireAdmin();
