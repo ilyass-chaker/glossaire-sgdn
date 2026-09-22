@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glossaire interactif – SGdN – 1re STMG</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="assets/config.js"></script>
+  <script src="assets/common.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside>
+    <div class="side-nav">
+      <div class="side-section-title">Navigation</div>
+      <button class="side-btn active" id="navGlossary" type="button">⌂ Glossaire</button>
+      <button class="side-btn" id="navFlashcards" type="button">▣ Flashcards</button>
+    </div>
+    <div class="side-footer">Développé par M. Ilyass CHAKER</div>
+  </aside>
+  <main><div class="container">
+    <section class="hero"><div>
+      <div class="course-kicker">Sciences de Gestion et du Numérique (SGdN) - 1re STMG - M. CHAKER</div>
+      <h1 id="pageTitle">Glossaire interactif</h1>
+      <p id="pageDescription">Selon vos besoins, consultez rapidement les notions du programme grâce aux filtres alphabétiques et par chapitre.</p>
+    </div></section>
+    <div id="configError" class="error-banner hidden">L’application n’est pas encore reliée à sa base de données. L’enseignant doit compléter <strong>assets/config.js</strong>.</div>
+
+    <section id="glossaryView">
+      <div class="toolbar">
+        <div class="filters-top">
+          <div class="search-wrap"><input id="searchInput" type="search" placeholder="Rechercher une notion ou un mot dans une définition…"></div>
+          <select id="chapterFilter"><option value="">Tous les chapitres</option></select>
+          <div class="reset-wrap"><button class="reset-btn" id="resetFilters" type="button">Réinitialiser les filtres</button><span>Supprime tous les filtres appliqués.</span></div>
+        </div>
+        <div class="alphabet" id="alphabet"></div>
+        <div class="pdf-actions"><div><strong>Export PDF</strong><span>Le document reprend uniquement les notions actuellement affichées.</span></div><button class="primary-btn" id="exportPdf" type="button">Exporter le glossaire filtré en PDF</button></div>
+      </div>
+      <div class="content-head"><div><h2 id="viewTitle">Toutes les notions</h2><div class="count" id="resultCount"></div></div></div>
+      <section class="cards" id="cards"></section>
+    </section>
+
+    <section id="flashcardsView" class="hidden">
+      <div class="flashcards-panel">
+        <p class="flashcards-intro">Sélectionnez un chapitre ou l’ensemble du programme, puis parcourez les cartes à votre rythme.</p>
+        <div class="flashcard-controls"><select id="flashChapter"><option value="">Tous les chapitres</option></select><button class="secondary-btn shuffle-btn" id="shuffleBtn" type="button" aria-pressed="false">Mélanger les cartes</button></div>
+        <div class="flashcard-meta"><span id="flashScope">Tous les chapitres</span><span id="flashCounter">0 carte</span></div>
+        <div id="flashEmpty" class="empty hidden">Aucune notion n’est disponible pour cette sélection.</div>
+        <div id="flashDeck">
+          <div class="flashcard-stage">
+            <button class="flash-nav" id="prevCard" type="button">‹</button>
+            <div class="study-card" id="studyCard" tabindex="0" role="button">
+              <div class="fc-chapter"><span class="chapter-badge" id="cardChapter"></span></div>
+              <div id="cardFront"><div class="fc-label">Notion</div><h2 class="fc-term" id="cardTerm"></h2><div style="margin-top:24px;color:#7b889b;font-size:13px">Cliquez sur la carte pour afficher la définition</div></div>
+              <div id="cardBack" class="hidden"><div class="fc-label">Définition</div><p class="fc-definition" id="cardDefinition"></p><div class="fc-example hidden" id="cardExample"></div></div>
+            </div>
+            <button class="flash-nav" id="nextCard" type="button">›</button>
+          </div>
+          <div class="flashcard-actions"><button class="secondary-btn" id="revealCard" type="button">Afficher la définition</button><button class="secondary-btn" id="restartCards" type="button">Recommencer</button></div>
+        </div>
+      </div>
+    </section>
+  </div></main>
+</div>
+<div class="toast hidden" id="toast"></div>
+<script src="assets/student.js"></script>
+</body></html>
